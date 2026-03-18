@@ -5,11 +5,15 @@ import { FacebookIcon, GithubIcon, InstagramIcon, LinkedinIcon, Mail, MapIcon, P
 export const ContactSection = () => {
 
      const handleSubmit = (e) =>{
-
         e.preventDefault()
-        setTimeout(()=> {
-
-        }, 1500)
+        const formData = new FormData(e.target)
+        const name = formData.get('name')
+        const email = formData.get('email')
+        const message = formData.get('message')
+        
+        const mailtoLink = `mailto:richardglopez.work@gmail.com?subject=Contact from ${name}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`
+        
+        window.location.href = mailtoLink
      }
     return (
     <section id="contact" 
@@ -28,22 +32,22 @@ export const ContactSection = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <div className="space-y-8">
                     <h3 className="text-2xl font-semibold mb-6">Contact Information</h3>
-                    <div className="space-y-6 justify-center">
-                        <div className="flex items-start space-x-4">
-                            <div className="p-3 rounded-full bg-primary/10">
+                    <div className="space-y-6">
+                        <div className="flex items-center space-x-4">
+                            <div className="p-3 rounded-full bg-primary/10 flex-shrink-0">
                                 <Mail className="h-6 w-6 text-primary" />{" "}
                             </div>
                             <div>
                                 <h4 className="font-medium"> Email</h4>
-                                <a href="mailto:richardlopez042803@gmail.com" 
+                                <a href="mailto:richardglopez.work@gmail.com" 
                                 className="text-muted-foreground hover:text-primary transition-colors">
-                                    richardlopez042803@gmail.com
+                                    richardglopez.work@gmail.com
                                 </a>
                             </div>
                         </div>
-                        <div className="flex items-start space-x-4">
-                            <div className="p-3 rounded-full bg-primary/10">
-                                <Phone className="h-6 w-6 text-primary" />{" "}
+                        <div className="flex items-center space-x-4">
+                            <div className="p-3 rounded-full bg-primary/10 flex-shrink-0">
+                                <Phone className="h-6 w-6 text-primary"/>
                             </div>
                             <div>
                                 <h4 className="font-medium"> Phone</h4>
@@ -53,8 +57,8 @@ export const ContactSection = () => {
                                 </a>
                             </div>
                         </div>
-                        <div className="flex items-start space-x-4">
-                            <div className="p-3 rounded-full bg-primary/10">
+                        <div className="flex items-center space-x-4">
+                            <div className="p-3 rounded-full bg-primary/10 flex-shrink-0">
                                 <MapIcon className="h-6 w-6 text-primary" />
                             </div>
                             <div>
@@ -85,7 +89,7 @@ export const ContactSection = () => {
                 
                 <div className="bg-card p-8 rounded-lg shadow-xs">
                         <h3 className="text-2xl font-semibold mb-6">Send a Message</h3>
-                        <form className="space-y-6">
+                        <form className="space-y-6" onSubmit={handleSubmit}>
                             <div>
                                 <label htmlFor="name" className="block text-sm font-medium mb-2"> Your Name</label>
                                 <input 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Sun } from "lucide-react";
 
 // id, size, x, y, opacity, animationDuration
 // id, size, x, y, delay, animationDuration
@@ -6,8 +7,23 @@ import { useEffect, useState } from "react";
 export const StarBackground = () => {
   const [stars, setStars] = useState([]);
   const [meteors, setMeteors] = useState([]);
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   useEffect(() => {
+    // Check current theme
+    const checkTheme = () => {
+      setIsDarkMode(document.documentElement.classList.contains("dark"));
+    };
+    
+    checkTheme();
+    
+    // Listen for theme changes
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"]
+    });
+
     generateStars();
     generateMeteors();
 
@@ -17,7 +33,10 @@ export const StarBackground = () => {
 
     window.addEventListener("resize", handleResize);
 
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      observer.disconnect();
+    };
   }, []);
 
   const generateStars = () => {
@@ -42,7 +61,7 @@ export const StarBackground = () => {
   };
 
   const generateMeteors = () => {
-    const numberOfMeteors = 4;
+    const numberOfMeteors = isDarkMode ? 4 : 0; // Only meteors in dark mode
     const newMeteors = [];
 
     for (let i = 0; i < numberOfMeteors; i++) {
@@ -59,9 +78,15 @@ export const StarBackground = () => {
     setMeteors(newMeteors);
   };
 
+  // Regenerate meteors when theme changes
+  useEffect(() => {
+    generateMeteors();
+  }, [isDarkMode]);
+
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
 
+      {/* Stars */}
       {stars.map((star) => (
         <div
           key={star.id}
@@ -76,7 +101,8 @@ export const StarBackground = () => {
           }}
         />
       ))}
-          {/* Meteors */}
+
+      {/* Meteors - only in dark mode */}
       {meteors.map((meteor) => (
         <div
           key={meteor.id}
@@ -91,6 +117,16 @@ export const StarBackground = () => {
           }}
         />
       ))}
+
+      {/* Sun rays - only in light mode */}
+      {!isDarkMode && (
+        <div className="absolute top-10 right-10 animate-spin-slow">
+          <Sun className="h-16 w-16 text-yellow-400/20" />
+          <div className="absolute inset-0 animate-pulse">
+            <div className="absolute inset-0 bg-yellow-400/10 rounded-full blur-xl scale-150"></div>
+          </div>
+        </div>
+      )}
 
     </div>
   );
