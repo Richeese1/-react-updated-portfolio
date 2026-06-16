@@ -33,6 +33,16 @@ const projects = [
         demoUrl: "https://task-flow-task-management-system.netlify.app/",
         githubUrl: "https://github.com/Richeese1/task-management-system",
     },
+    {
+        id: 4,
+        title: "Albion Crafting Calculator",
+        description: "A high-performance, zero-database web tool built for Albion Online players to optimize crafting margins and resource investments. By shifting complex game economy math from messy spreadsheets to a clean, reactive interface, the calculator instantly evaluates upfront investments, net profits, and effective material costs factoring in recursive Resource Return Rates (RRR) and variable city taxes.",
+        image: "/projects/Crafting.png",
+        tags: ["React", "TailwindCSS"],
+        category: "web-dev",
+        demoUrl: "https://peanutsuuu-crafting-calculator.vercel.app/",
+        githubUrl: "https://github.com/Richeese1/peanutsuuu-crafting-calculator",
+    },
 ]
 
 const categories = ["all", "web-dev", "game-dev"];
